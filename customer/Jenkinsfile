@@ -18,6 +18,7 @@ pipeline {
                 docker ps -aq --filter "name=mysql_portal" | xargs -r docker rm
                 docker ps -q --filter "name=customer_portal" | xargs -r docker stop
                 docker ps -aq --filter "name=customer_portal" | xargs -r docker rm
+                docker rmi --filter "name=tanujshaoo/mysql_portal:${BUILD_NUMBER}
                 '''
             }
         }
@@ -33,25 +34,25 @@ pipeline {
         }
         stage('Build MySql Image') {
             steps {
-                sh 'docker build -t tanujshaoo/mysql_portal:${BUILD_NUMBER} -f ./customer/MySqlDockerfile .'
+                sh 'docker build -t tanujsahoo/mysql_portal:${BUILD_NUMBER} -f ./customer/MySqlDockerfile .'
             }
         }
         stage('Build WebApp Image') {
             steps {
-                sh 'docker build -t tanujshaoo/customer_portal:${BUILD_NUMBER} -f ./customer/Dockerfile .'
+                sh 'docker build -t tanujsahoo/customer_portal:${BUILD_NUMBER} -f ./customer/Dockerfile .'
             }
         }
         stage('Creating Tag') {
             steps {
-                sh 'docker tag -t tanujsahoo/mysql_portal:${BUILD_NUMBER} tanujsahoo/mysql_portal:${BUILD_NUMBER}'
-                sh 'docker tag -t tanujsahoo/customer_portal:${BUILD_NUMBER} tanujsahoo/customer_portal:${BUILD_NUMBER}'
+                sh 'docker tag tanujsahoo/mysql_portal:${BUILD_NUMBER} tanujsahoo/mysql_portal:${BUILD_NUMBER}'
+                sh 'docker tag tanujsahoo/customer_portal:${BUILD_NUMBER} tanujsahoo/customer_portal:${BUILD_NUMBER}'
             }
         }
         stage('Push Build') {
             steps {
                 sh '''
-                docker push tanjusahoo/mysql_portal:${BUILD_NUMBER}
-                docker push tanjusahoo/customer_portal:${BUILD_NUMBER}
+                docker push tanujsahoo/mysql_portal:${BUILD_NUMBER}
+                docker push tanujsahoo/customer_portal:${BUILD_NUMBER}
                 '''
             }
         }
