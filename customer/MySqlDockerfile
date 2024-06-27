@@ -1,0 +1,8 @@
+# Use the specific base image for MySQL
+FROM arm64v8/mysql:tag
+
+# Set environment variables
+ENV MYSQL_ROOT_PASSWORD=root
+
+# Expose the MySQL port (optional, for documentation purposes)
+EXPOSE 3306
