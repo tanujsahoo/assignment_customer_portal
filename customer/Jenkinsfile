@@ -18,8 +18,8 @@ pipeline {
                 docker ps -aq --filter "name=mysql_portal" | xargs -r docker rm
                 docker ps -q --filter "name=customer_portal" | xargs -r docker stop
                 docker ps -aq --filter "name=customer_portal" | xargs -r docker rm
-                docker rmi --filter "name=tanujshaoo/mysql_portal:${BUILD_NUMBER}"
-                docker rmi --filter "name=tanujshaoo/customer_portal:${BUILD_NUMBER}"
+                docker rmi tanujshaoo/mysql_portal:${BUILD_NUMBER}"
+                docker rmi tanujshaoo/customer_portal:${BUILD_NUMBER}"
                 '''
             }
         }
