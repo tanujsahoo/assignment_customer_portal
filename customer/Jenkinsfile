@@ -10,15 +10,26 @@ pipeline {
     }
 
     stages {
-        stage('Login') {
+        stage('Login DockerHub') {
             steps {
                 sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin docker.io'
             }
         }
-         stage('List Files') {
+        stage('List Files') {
             steps {
                 sh 'ls -al'
             }
-        }  
+        }
+        stage('Build MySql Image') {
+            steps {
+                sh 'docker build -t tanujshaoo/mysql_portal:${BUILD_NUMBER} -f ./customer/MySqlDockerfile .'
+            }
+        }
+        stage('Build WebApp Image') {
+            steps {
+                sh 'docker build -t tanujshaoo/customer_portal:${BUILD_NUMBER} -f ./customer/Dockerfile .'
+            }
+        }
+
     }
 }
