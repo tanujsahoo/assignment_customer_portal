@@ -21,5 +21,6 @@ RUN a2enmod rewrite headers
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
 # RUN ls  /var/www/html/
+WORKDIR /var/www/html/
 RUN chmod -R 0777 /var/www/html/storage/
-RUN cd /var/www/html && composer install && php artisan key:generate
+#RUN cd /var/www/html && composer install && php artisan key:generate
