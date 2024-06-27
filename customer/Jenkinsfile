@@ -5,6 +5,7 @@ pipeline {
     }
 
     environment {
+         PATH = "/usr/local/bin:$PATH"
         DOCKERHUB_CREDENTIALS = credentials('92dc7ff3-5b6d-4958-9c0a-62919d9116aa')
     }
 
