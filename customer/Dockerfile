@@ -1,6 +1,6 @@
 FROM php:7.4-apache
 
-COPY ./src /var/www/html/
+COPY ./customer/src /var/www/html/
 
 RUN apt-get update && apt-get install -y \
         libfreetype6-dev \
