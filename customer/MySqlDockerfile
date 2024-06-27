@@ -1,5 +1,5 @@
 # Use the specific base image for MySQL
-FROM arm64v8/mysql:tag
+FROM arm64v8/mysql:latest
 
 # Set environment variables
 ENV MYSQL_ROOT_PASSWORD=root
