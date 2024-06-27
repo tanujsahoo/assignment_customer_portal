@@ -10,7 +10,7 @@ pipeline {
     }
 
     stages {
-        stage('Stop and CleanUP') {
+        stage('Stop and Cleanup') {
             steps {
                 sh '''
                 echo "stopping container"
@@ -21,12 +21,6 @@ pipeline {
                 '''
             }
         }
-        stage('Login DockerHub') {
-            steps {
-                sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin docker.io'
-            }
-        }
-
         stage('Login DockerHub') {
             steps {
                 sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin docker.io'
@@ -47,14 +41,12 @@ pipeline {
                 sh 'docker build -t tanujshaoo/customer_portal:${BUILD_NUMBER} -f ./customer/Dockerfile .'
             }
         }
-
         stage('Creating Tag') {
             steps {
                 sh 'docker tag -t tanujsahoo/mysql_portal:${BUILD_NUMBER} tanujsahoo/mysql_portal:${BUILD_NUMBER}'
                 sh 'docker tag -t tanujsahoo/customer_portal:${BUILD_NUMBER} tanujsahoo/customer_portal:${BUILD_NUMBER}'
             }
         }
-
         stage('Push Build') {
             steps {
                 sh '''
