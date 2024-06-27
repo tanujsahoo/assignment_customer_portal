@@ -1,13 +1,23 @@
 pipeline {
     agent any
+    options {
+        buildDiscarder(logRotator(numToKeepStr:'5'))
+    }
+
+    environment {
+        DOCKERHUB_CREDENTIALS = credentials('92dc7ff3-5b6d-4958-9c0a-62919d9116aa')
+    }
+
     stages {
-        stage('Build') {
+        stage('Login') {
             steps {
-                sh '''
-                echo "Hello World"
-                '''
+                sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin docker.io'
             }
         }
-        
+         stage('List Files') {
+            steps {
+                sh 'ls -al'
+            }
+        }  
     }
 }
