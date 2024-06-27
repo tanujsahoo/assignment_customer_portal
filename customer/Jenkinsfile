@@ -10,6 +10,23 @@ pipeline {
     }
 
     stages {
+        stage('Stop and CleanUP') {
+            steps {
+                sh '''
+                echo "stopping container"
+                docker ps -q --filter "name=mysql_portal" | xargs -r docker stop
+                docker ps -aq --filter "name=mysql_portal" | xargs -r docker rm
+                docker ps -q --filter "name=customer_portal" | xargs -r docker stop
+                docker ps -aq --filter "name=customer_portal" | xargs -r docker rm
+                '''
+            }
+        }
+        stage('Login DockerHub') {
+            steps {
+                sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin docker.io'
+            }
+        }
+
         stage('Login DockerHub') {
             steps {
                 sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin docker.io'
@@ -28,6 +45,22 @@ pipeline {
         stage('Build WebApp Image') {
             steps {
                 sh 'docker build -t tanujshaoo/customer_portal:${BUILD_NUMBER} -f ./customer/Dockerfile .'
+            }
+        }
+
+        stage('Creating Tag') {
+            steps {
+                sh 'docker tag -t tanujsahoo/mysql_portal:${BUILD_NUMBER} tanujsahoo/mysql_portal:${BUILD_NUMBER}'
+                sh 'docker tag -t tanujsahoo/customer_portal:${BUILD_NUMBER} tanujsahoo/customer_portal:${BUILD_NUMBER}'
+            }
+        }
+
+        stage('Push Build') {
+            steps {
+                sh '''
+                docker push tanjusahoo/mysql_portal:${BUILD_NUMBER}
+                docker push tanjusahoo/customer_portal:${BUILD_NUMBER}
+                '''
             }
         }
 
