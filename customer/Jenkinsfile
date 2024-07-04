@@ -44,6 +44,12 @@ pipeline {
             }
         }
 
+         stage('Install Dependency') {
+            steps {
+                sh 'RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer --version=2.4.4'
+            }
+        }
+
         stage('Run Composer and Unit Tests') {
             steps {
                 dir("customer/src") {
