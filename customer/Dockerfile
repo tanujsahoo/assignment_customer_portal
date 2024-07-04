@@ -19,8 +19,11 @@ RUN sed -ri -e 's!/var/www/!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/apache2.conf
 RUN a2enmod rewrite headers
 
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
+WORKDIR /var/www/html/
+# Install dependencies
+
+RUN cd /var/www/html && composer install
 
 # RUN ls  /var/www/html/
-WORKDIR /var/www/html/
 #RUN chmod -R 0777 /var/www/html/storage/
 #RUN cd /var/www/html && composer install && php artisan key:generate
