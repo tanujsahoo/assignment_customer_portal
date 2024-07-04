@@ -1,4 +1,4 @@
-FROM php:7.4-apache
+FROM php:8.1-apache
 
 COPY ./customer/src /var/www/html/
 
@@ -18,11 +18,11 @@ RUN sed -ri -e 's!/var/www/!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/apache2.conf
 # 3. mod_rewrite for URL rewrite and mod_headers for .htaccess extra headers like Access-Control-Allow-Origin-
 RUN a2enmod rewrite headers
 
-COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
+RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer --version=2.4.4
+
 WORKDIR /var/www/html/
 # Install dependencies
 
-RUN cd /var/www/html && composer install
 
 # RUN ls  /var/www/html/
 #RUN chmod -R 0777 /var/www/html/storage/
