@@ -44,11 +44,11 @@ pipeline {
             }
         }
 
-         stage('Install Dependency') {
-            steps {
-                sh 'RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer --version=2.4.4'
-            }
-        }
+        //  stage('Install Dependency') {
+        //     steps {
+        //         sh 'RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer --version=2.4.4'
+        //     }
+        // }
 
         stage('Run Composer and Unit Tests') {
             steps {
@@ -63,13 +63,13 @@ pipeline {
                 }
             }
         }
-        // stage('Unit Testing') {
-        //     steps {
-        //         sh """
-        //             docker exec customer_php php ./vendor/phpunit/phpunit/phpunit /var/www/html/tests/Unit
-        //         """
-        //     }
-        // }
+        stage('Unit Testing') {
+            steps {
+                sh """
+                    docker exec customer_php php ./vendor/phpunit/phpunit/phpunit /var/www/html/tests/Unit
+                """
+            }
+        }
 
         // stage('Integration Testing') {
         //     steps {
