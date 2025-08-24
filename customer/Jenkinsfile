@@ -6,6 +6,8 @@ pipeline {
 
     environment {
         PATH = "/usr/local/bin:$PATH"
+        sh 'which docker || echo "Docker not found"'
+        DOCKER_CONFIG = "${env.WORKSPACE}/.docker"
         DOCKERHUB_CREDENTIALS = credentials('8e1dfa67-ff83-4c76-99f4-f53d421be9de')
         IMAGE_NAME = 'customer_portal'
     }
@@ -24,7 +26,10 @@ pipeline {
         }
         stage('Login DockerHub') {
             steps {
-                sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin docker.io'
+                sh '''
+                mkdir -p "$DOCKER_CONFIG"
+                echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin docker.io
+                '''
             }
         }
         stage('List Files') {
