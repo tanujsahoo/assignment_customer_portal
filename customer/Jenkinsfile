@@ -6,7 +6,7 @@ pipeline {
 
     environment {
         PATH = "/usr/local/bin:$PATH"
-        sh 'which docker || echo "Docker not found"'
+        // Use a temp directory inside the workspace or /tmp for Docker config
         DOCKER_CONFIG = "${env.WORKSPACE}/.docker"
         DOCKERHUB_CREDENTIALS = credentials('8e1dfa67-ff83-4c76-99f4-f53d421be9de')
         IMAGE_NAME = 'customer_portal'
@@ -96,6 +96,12 @@ pipeline {
                 docker push tanujsahoo/mysql_portal:${BUILD_NUMBER}
                 docker push tanujsahoo/customer_portal:${BUILD_NUMBER}
                 '''
+            }
+        }
+        post {
+            always {
+                    // Cleanup Docker config to avoid leaving tokens behind
+                    sh 'rm -rf "$DOCKER_CONFIG"'
             }
         }
 
