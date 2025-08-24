@@ -98,12 +98,11 @@ pipeline {
                 '''
             }
         }
-        post {
+    }
+     post {
             always {
                     // Cleanup Docker config to avoid leaving tokens behind
                     sh 'rm -rf "$DOCKER_CONFIG"'
             }
         }
-
-    }
 }
