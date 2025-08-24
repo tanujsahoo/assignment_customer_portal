@@ -60,8 +60,9 @@ pipeline {
                 dir("customer/src") {
                     sh(label: 'Run Composer',
                     script:"""
-                    composer install --ignore-platform-req=ext-gd   
+                    composer install --ignore-platform-req=ext-gd  
                     chmod -R 777 vendor
+                     mkdir -p storage/framework/views 
                     chmod -R 777 storage/*
                     composer dump-autoload
                     """)
