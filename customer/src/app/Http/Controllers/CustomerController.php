@@ -11,6 +11,8 @@ use App\Http\Requests\ShowOrdersRequest;
 use App\Helpers\ResponseHelper;
 use App\Http\Services\PolicyService;
 use App\Http\Services\CustomerService;
+use App\Http\Services\OrderService;
+
 use Illuminate\Http\JsonResponse;
 
 class CustomerController extends Controller
@@ -24,14 +26,19 @@ class CustomerController extends Controller
     protected $policyService;
     protected $customerService;
 
+    protected $orderService;
+
     public function __construct(
         CustomerService $customerService,
         PolicyService $policyService,
-        ResponseHelper $responseHelper
+        ResponseHelper $responseHelper,
+        OrderService $orderService
     ) {
         $this->customerService = $customerService;
         $this->policyService = $policyService;
         $this->responseHelper = $responseHelper;
+        $this->orderService = $orderService;
+
     }
 
     public function login(Request $custRequest) {
@@ -105,7 +112,7 @@ class CustomerController extends Controller
             if ($order->status == Order::ASSIGNED_ORDER_STATUS) {
                 return $this->responseHelper->sendError('ALREADY_TAKEN', JsonResponse::HTTP_CONFLICT);
             }
-            
+
             //take order
             if (false === $this->orderService->takeOrder($id)) {
                 return $this->responseHelper->sendError('ALREADY_TAKEN', JsonResponse::HTTP_CONFLICT);
