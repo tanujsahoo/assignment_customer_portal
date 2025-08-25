@@ -70,9 +70,6 @@ pipeline {
                 sh '''
                         set -e
                         
-                        echo "Installing composer dependencies"
-                        composer install --ignore-platform-req=ext-gd
-                        
                         echo "Ensuring necessary directories exist"
                         mkdir -p storage/framework/views
                         mkdir -p bootstrap/cache
@@ -80,6 +77,7 @@ pipeline {
                         echo "Setting permissions"
                         chmod -R 775 bootstrap/cache
                         chmod -R 775 storage
+                        echo "VIEW_COMPILED_PATH: $VIEW_COMPILED_PATH"
                         # Avoid chmod 777 vendor unless absolutely necessary
                         
                         ls -ld bootstrap/cache storage/framework/views
@@ -88,6 +86,9 @@ pipeline {
                         php artisan cache:clear
                         php artisan config:clear
                         php artisan view:clear
+                        
+                        echo "Installing composer dependencies"
+                        composer install --ignore-platform-req=ext-gd
                         
                         echo "Dumping autoload"
                         composer dump-autoload
