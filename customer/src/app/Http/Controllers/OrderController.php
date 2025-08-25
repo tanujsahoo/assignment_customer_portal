@@ -68,16 +68,16 @@ class OrderController extends Controller
      * @param  [int]             $id            [Order id]
      * @return [json]
      */
-    public function assignOrder(AssignOrderRequest $assignRequest, $id)
+    public function assignOrder($id)
     {
         try {
-            $order = $this->orderService->getOrderById($id);
 
+            $order = $this->orderService->getOrderById($id);
             //if order status is already taken then raise error
             if ($order->status == Order::ASSIGNED_ORDER_STATUS) {
                 return $this->responseHelper->sendError('ALREADY_TAKEN', JsonResponse::HTTP_CONFLICT);
             }
-            
+
             //take order
             if (false === $this->orderService->takeOrder($id)) {
                 return $this->responseHelper->sendError('ALREADY_TAKEN', JsonResponse::HTTP_CONFLICT);

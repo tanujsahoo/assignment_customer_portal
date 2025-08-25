@@ -57,6 +57,7 @@ class CustomerController extends Controller
 
 
     public function updateDetails(Request $custRequest) {
+
         $customerId = $custRequest->input('customer_id');
         $details = $custRequest->input('customer_details');
 
