@@ -69,7 +69,6 @@ pipeline {
                         composer dump-autoload **/
                 sh '''
                         set -e
-                        
                         echo "Ensuring necessary directories exist"
                         mkdir -p storage/framework/views
                         mkdir -p bootstrap/cache
