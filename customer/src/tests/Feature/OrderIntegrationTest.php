@@ -1,6 +1,5 @@
 <?php
-
-namespace App\Test\Feature\ApiController;
+namespace Tests\Feature\OrderIntegrationTest;
 
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\WithFaker;

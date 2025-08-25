@@ -1,4 +1,5 @@
 <?php
+
 namespace Tests\Unit\Controllers;
 
 use Tests\TestCase;
@@ -16,6 +17,11 @@ class OrderControllerTest extends TestCase
         Order::UNASSIGNED_ORDER_STATUS,
         Order::ASSIGNED_ORDER_STATUS,
     ];
+
+    public $orderServiceMock;
+    public $responseHelper;
+    public $pathPrefix;
+    public $faker;
 
     public function setUp(): void
     {

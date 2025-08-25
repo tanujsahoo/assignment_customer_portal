@@ -58,14 +58,40 @@ pipeline {
         stage('Run Composer and Unit Tests') {
             steps {
                 dir("customer/src") {
-                    sh '''
-                    echo "stopping container"
-                    composer install --ignore-platform-req=ext-gd  
-                    chmod -R 777 vendor
-                    mkdir -p storage/framework/views 
-                    chmod -R 777 storage/*
-                    composer dump-autoload
-                '''
+                               /** echo "stopping container"
+                                composer install --ignore-platform-req=ext-gd  
+                                chmod -R 777 vendor
+                                mkdir -p storage/framework/views 
+                                ls -ld bootstrap/cache
+                                mkdir -p bootstrap/cache
+                                chmod -R 775 bootstrap/cache
+                                chmod -R 777 storage 
+                        composer dump-autoload **/
+                sh '''
+                        set -e
+                        
+                        echo "Installing composer dependencies"
+                        composer install --ignore-platform-req=ext-gd
+                        
+                        echo "Ensuring necessary directories exist"
+                        mkdir -p storage/framework/views
+                        mkdir -p bootstrap/cache
+                        
+                        echo "Setting permissions"
+                        chmod -R 775 bootstrap/cache
+                        chmod -R 775 storage
+                        # Avoid chmod 777 vendor unless absolutely necessary
+                        
+                        ls -ld bootstrap/cache storage/framework/views
+                        
+                        echo "Clearing Laravel caches"
+                        php artisan cache:clear
+                        php artisan config:clear
+                        php artisan view:clear
+                        
+                        echo "Dumping autoload"
+                        composer dump-autoload
+                    '''
                 }
             }
         }
