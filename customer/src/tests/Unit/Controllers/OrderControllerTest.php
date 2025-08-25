@@ -1,4 +1,5 @@
 <?php
+namespace Tests\Unit\Controllers;
 
 use App\Http\Controllers\OrderController;
 use App\Models\Order;
@@ -21,7 +22,7 @@ class OrderControllerTest extends Tests\TestCase
 
         $this->faker = Faker\Factory::create();
         $this->orderServiceMock = \Mockery::mock(\App\Http\Services\OrderService::class);
-        
+
         $this->pathPrefix = "/api";
         $this->responseHelper = \App::make(\App\Helpers\ResponseHelper::class);
 
@@ -183,7 +184,7 @@ class OrderControllerTest extends Tests\TestCase
         echo "\n *** Unit Test - Controller::OrderController - Method:assignOrder with --- NegativeTestCase (Already Taken) --- *** \n";
 
         $id = $this->faker->numberBetween(1, 9999);
-        
+
         $order = $this->generateRandomOrder($id);
 
         //status should already taken
