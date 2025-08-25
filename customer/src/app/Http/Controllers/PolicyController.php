@@ -12,7 +12,7 @@ use App\Helpers\ResponseHelper;
 use App\Http\Services\OrderService;
 use Illuminate\Http\JsonResponse;
 
-class OrderController extends Controller
+class PolicyController extends Controller
 {
 
     /**
@@ -77,7 +77,7 @@ class OrderController extends Controller
             if ($order->status == Order::ASSIGNED_ORDER_STATUS) {
                 return $this->responseHelper->sendError('ALREADY_TAKEN', JsonResponse::HTTP_CONFLICT);
             }
-            
+
             //take order
             if (false === $this->orderService->takeOrder($id)) {
                 return $this->responseHelper->sendError('ALREADY_TAKEN', JsonResponse::HTTP_CONFLICT);

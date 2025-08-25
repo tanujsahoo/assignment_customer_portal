@@ -2,7 +2,7 @@
 
 namespace App\Http\Requests;
 
-class CreateOrderRequest extends CommonFormRequest
+class LoginCustomerRequest extends CommonFormRequest
 {
 
     /**

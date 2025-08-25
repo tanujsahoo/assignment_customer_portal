@@ -1,13 +1,14 @@
 <?php
 namespace Tests\Unit\Controllers;
 
+use Tests\TestCase;
 use App\Http\Controllers\OrderController;
 use App\Models\Order;
 use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Illuminate\Http\JsonResponse;
 // use Mockery;
 
-class OrderControllerTest extends Tests\TestCase
+class OrderControllerTest extends TestCase
 {
     use WithoutMiddleware;
 
