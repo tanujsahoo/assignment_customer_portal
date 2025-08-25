@@ -98,8 +98,9 @@ pipeline {
         }
         stage('Unit Testing') {
             steps {
+                // docker exec customer_php php ./vendor/phpunit/phpunit/phpunit /var/www/html/tests/Unit
                 sh """
-                    docker exec customer_php php ./vendor/phpunit/phpunit/phpunit /var/www/html/tests/Unit
+                    docker exec customer_portal php ./vendor/phpunit/phpunit/phpunit /var/www/html/tests/Unit
                 """
             }
         }
